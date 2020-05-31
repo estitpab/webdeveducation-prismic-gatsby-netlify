@@ -7,45 +7,97 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
-
-import Header from "./header"
+import { useStaticQuery, graphql, Link } from "gatsby"
 import "./layout.css"
+import styled from "styled-components"
+
+const MainWrapper = styled.main`
+  max-width: 800px;
+  margin: 0 auto;
+`
+
+const Header = styled.header`
+  display: flex;
+  background: black;
+  height:66px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  `
+const Branding = styled.div`
+  color: orange;
+  font-weight-bold;
+  margin: auto 0;
+  font-size:20px;
+  `
+
+const NavLinks = styled.div`
+  margin-left:auto;
+  display:flex;
+  `
+const NavLink = styled.div`
+  margin: auto 0;
+  
+  a{
+    color:white;
+    padding: 0 16px;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:14px;
+    
+    &:hover{
+      color: orange;
+    }
+  }
+`
 
 const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
+  const { prismic } = useStaticQuery(
+    graphql`
+        query {
+            prismic {
+                allNavigations {
+                    edges {
+                        node {
+                            branding
+                            navigation_links {
+                                label
+                                link {
+                                    ... on PRISMIC_Page {
+                                        _meta {
+                                            uid
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-      }
-    }
-  `)
+
+    `)
 
   return (
     <>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
-      >
-        <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </div>
+      <Header>
+        <Branding>
+          {prismic.allNavigations.edges[0].node.branding}
+        </Branding>
+        <NavLinks>
+          {prismic.allNavigations.edges[0].node.navigation_links.map((link) => (
+            <NavLink key={link.link._meta.uid}>
+              <Link to={link.link._meta.uid}>{link.label}</Link>
+            </NavLink>
+          ))}
+        </NavLinks>
+      </Header>
+      <MainWrapper>{children}</MainWrapper>
     </>
   )
 }
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 }
 
 export default Layout
