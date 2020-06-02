@@ -1,5 +1,5 @@
 import React from "react"
-import {graphql } from "gatsby"
+import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -18,6 +18,7 @@ export const query = graphql`
                                 primary {
                                     hero_content
                                     hero_title
+                                    background_image
                                 }
                             }
                         }
