@@ -3,7 +3,7 @@ import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import SliceZone from "../components/slideZone"
+import SliceZone from "../components/sliceZone"
 
 
 export const query = graphql`
@@ -21,6 +21,27 @@ export const query = graphql`
                                     background_image
                                 }
                             }
+                            ... on PRISMIC_HomepageBodyCall_to_action_grid {
+                                type
+                                primary {
+                                    section_title
+                                }
+                                fields {
+                                    button_label
+                                    call_to_action_title
+                                    content
+                                    featured_image
+                                    button_destination {
+                                        ... on PRISMIC_Page {
+                                            page_title
+                                            content
+                                            _meta {
+                                                uid
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -32,6 +53,7 @@ export const query = graphql`
 
 
 const IndexPage = (props) => {
+    console.log(props);
   return (
 
     <Layout>
