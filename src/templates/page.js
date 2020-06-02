@@ -25,9 +25,14 @@ export const query = graphql`
 
 `
 
+
+
 const Page = (props) => {
-  const pageTitle = props.data.prismic.allPages.edges[0].node.page_title;
-  const content = props.data.prismic.allPages.edges[0].node.content;
+  const prismicAllpages = props.data.prismic.allPages.edges[0];
+  if (!prismicAllpages) return null;
+
+  const pageTitle = prismicAllpages.node.page_title;
+  const content = prismicAllpages.node.content;
   return(
     <Layout>
       <RichText render={pageTitle}/>

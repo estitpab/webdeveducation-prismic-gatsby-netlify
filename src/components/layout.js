@@ -75,16 +75,21 @@ const Layout = ({ children }) => {
             }
         }
 
-    `)
+    `);
+
+  const prismicNavigation = prismic.allNavigations.edges[0];
+  if(!prismicNavigation) return null;
+  const branding = prismicNavigation.node.branding;
+  const navigation_links = prismicNavigation.node.navigation_links;
 
   return (
     <>
       <Header>
         <Branding>
-          {prismic.allNavigations.edges[0].node.branding}
+          {branding}
         </Branding>
         <NavLinks>
-          {prismic.allNavigations.edges[0].node.navigation_links.map((link) => (
+          {navigation_links.map((link) => (
             <NavLink key={link.link._meta.uid}>
               <Link to={link.link._meta.uid}>{link.label}</Link>
             </NavLink>
