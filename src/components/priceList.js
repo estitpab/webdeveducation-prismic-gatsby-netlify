@@ -7,7 +7,7 @@ const PriceListWrapper = styled.section`
   max-width: 800px;
   margin: 0 auto;
   
-  div:last-child{
+  >div:last-child{
     display: flex;
   }
 
@@ -25,7 +25,7 @@ const PriceList = ({ title, prices }) => {
               title={price.price_list_title}
               description={price.price_list_description}
               price={price.price_per_month}
-              type={price.price_type}
+              mostPopular={price.price_type === 'Most popular'}
             />
           )
         })}
