@@ -2,7 +2,7 @@ import React from "react"
 import { graphql } from "gatsby"
 import Layout from "../components/layout"
 import styled from "styled-components"
-import RichText from "../components/richText";
+import RichText from "../components/richText"
 
 
 export const query = graphql`
@@ -25,6 +25,11 @@ export const query = graphql`
     }
 
 `
+const ContentWrapper = styled.section`
+  max-width: 800px;
+  margin: 0 auto;
+`
+
 
 const Form = styled.form`
   padding: 10px;
@@ -33,6 +38,23 @@ const Form = styled.form`
   max-width: 800px;
   margin-right: auto;
   margin-left: auto;
+  
+  input{
+    margin-bottom: 10px;
+    border-radius: 4px;
+    height: 40px;
+    border:1px solid #eee;
+    width: 100%;
+  }
+  
+  textarea{
+    margin-bottom: 10px;
+    border-radius: 4px;
+    height: 100px;
+    border:1px solid #eee;
+    width: 100%;
+    resize: none;
+  }
 `
 
 const Button = styled.button`
@@ -49,37 +71,40 @@ const ContactPage = (props) => {
   console.log({ props })
   return (
     <Layout>
-      <RichText render={props.data.prismic.allContact_pages.edges[0].node.form_title}/>
-      <RichText render={props.data.prismic.allContact_pages.edges[0].node.form_description}/>
-      <Form onSubmit={e => e.preventDefault}>
-        {props.data.prismic.allContact_pages.edges[0].node.form_fields.map((field, i) => {
-          if (field.field_type === "textarea") {
-            return (
-              <div key={i}>
-                <label htmlFor={field.field_name}>{field.field_name}:</label><br/>
-                <textarea
-                  required={field.required === 'Yes'}
-                  id={field.field_name}
-                  name={field.field_name}/>
-              </div>
-            )
-          } else {
-            return (
-              <div key={i}>
-                <label htmlFor={field.field_name}>{field.field_name}:</label><br/>
-                <input
-                  required={field.required === 'Yes'}
-                  type={field.type}
-                  id={field.field_name}
-                  name={field.field_name}/>
-              </div>
-            )
-          }
-        })}
-        <Button type="submit">
+      <ContentWrapper>
+        <RichText render={props.data.prismic.allContact_pages.edges[0].node.form_title}/>
+        <RichText render={props.data.prismic.allContact_pages.edges[0].node.form_description}/>
+        <Form onSubmit={e => e.preventDefault}>
+          {props.data.prismic.allContact_pages.edges[0].node.form_fields.map((field, i) => {
+            if (field.field_type === "textarea") {
+              return (
+                <div key={i}>
+                  <label htmlFor={field.field_name}>{field.field_name}:</label><br/>
+                  <textarea
+                    required={field.required === "Yes"}
+                    id={field.field_name}
+                    name={field.field_name}/>
+                </div>
+              )
+            } else {
+              return (
+                <div key={i}>
+                  <label htmlFor={field.field_name}>{field.field_name}:</label><br/>
+                  <input
+                    required={field.required === "Yes"}
+                    type={field.type}
+                    id={field.field_name}
+                    name={field.field_name}/>
+                </div>
+              )
+            }
+          })}
+          <Button type="submit">
             Sumbit
-        </Button>
-      </Form>
+          </Button>
+        </Form>
+      </ContentWrapper>
+
     </Layout>
   )
 }

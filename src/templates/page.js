@@ -3,6 +3,7 @@ import { graphql } from "gatsby"
 import RichText from "../components/richText"
 import Layout from "../components/layout"
 import SliceZone from "../components/sliceZone"
+import styled from 'styled-components'
 
 export const query = graphql`
 
@@ -44,10 +45,12 @@ export const query = graphql`
             }
         }
     }
-
-
 `
 
+const PageWrapper = styled.section`
+  max-width: 800px;
+  margin: 0 auto;
+`
 
 const Page = (props) => {
   console.log(props);
@@ -58,9 +61,13 @@ const Page = (props) => {
   const content = prismicAllpages.node.content
   return (
     <Layout>
-      <RichText render={pageTitle}/>
-      <RichText render={content}/>
-      <SliceZone body={props.data.prismic.allPages.edges[0].node.body} />
+      <PageWrapper>
+        <RichText render={pageTitle}/>
+        <RichText render={content}/>
+        {!!props.data.prismic.allPages.edges[0].node.body &&
+        <SliceZone body={props.data.prismic.allPages.edges[0].node.body} />
+        }
+      </PageWrapper>
     </Layout>
   )
 }

@@ -23,10 +23,14 @@ const Header = styled.header`
   box-sizing: border-box;
   `
 const Branding = styled.div`
-  color: orange;
-  font-weight:bold;
   margin: auto 0;
-  font-size:20px;
+  a{
+    display: inline-block;
+    color: orange;
+    font-weight:bold;
+    font-size:20px;
+    text-decoration: none;
+  }
   `
 
 const NavLinks = styled.div`
@@ -66,6 +70,11 @@ const Layout = ({ children }) => {
                                             uid
                                         }
                                     }
+                                    ... on PRISMIC_Contact_page {
+                                        _meta {
+                                            uid
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -85,7 +94,7 @@ const Layout = ({ children }) => {
     <>
       <Header>
         <Branding>
-          {branding}
+          <Link to="/">{branding}</Link>
         </Branding>
         <NavLinks>
           {navigation_links.map((link) => (
