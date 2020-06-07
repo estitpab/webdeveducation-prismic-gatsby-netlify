@@ -1,6 +1,6 @@
 import React from 'react';
 import {graphql} from "gatsby";
-import {RichText} from "prismic-reactjs";
+import RichText from "../components/richText";
 import Layout from '../components/layout';
 
 export const query = graphql`

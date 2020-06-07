@@ -1,5 +1,5 @@
 import React from "react";
-import { RichText } from "prismic-reactjs";
+import RichText from "../components/richText";
 import styled from "styled-components";
 import CallToActionBlock from "./callToActionBlock"
 
